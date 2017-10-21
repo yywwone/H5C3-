@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	*{margin:0;padding:0;}
+	#box{position:relative;width:500px;height:400px;border:1px solid #d00;margin:100px auto 0;}
+	#box span{position:absolute;width:500px;height:400px;text-align:center;}
+	#box img{width:50px;height:50px;}
+	#box p{position:absolute;bottom:0;}
+	#bin{margin:20px auto 0;width:120px;height:50px;line-height:50px;text-align:center;background:#999;}
+</style>
+</head>
+
+<body>
+<div id="box">
+	<span>可以将图片拖拽到这里！！</span>
+    <p>共0张图</p>
+</div>
+<div id="bin">回收站</div>
+<script type="text/javascript">
+/*
+	如果在拖动的源对象事件和目标对象事件之间传递数据
+	html5为所有的拖动的相关事件提供一个新属性
+	ev.dataTransfer//数据传递的对象
+	功能：用于在源对象和目标对象的事件之间传递数据
+*/
+	var oBox=document.getElementById("box");
+	var oBin=document.getElementById("bin");
+	var oSpan=oBox.getElementsByTagName("span")[0];
+	var oP=oBox.getElementsByTagName("p")[0];
+	var aImgs=oBox.getElementsByTagName("img");//[0]改正
+	var img='';
+	var length=0;
+	oBox.ondragenter=function(ev){
+		oSpan.style.display="none";
+		var ev = ev || window.event;
+		ev.preventDefault();//阻止浏览器的默认事件
+	}
+	oBox.ondragover=function(ev){
+		var ev = ev || window.event;
+		ev.preventDefault();//阻止浏览器的默认事件
+	}
+	oBox.ondrop=function(ev){
+		var ev = ev || window.event;
+		ev.preventDefault();//阻止浏览器的默认事件
+		
+		var imgFile=ev.dataTransfer.files//先获取外部文件
+		console.log(imgFile)
+		//console.log(imgFile[0].type)
+		//多个
+		for(var i=0;i<imgFile.length;i++){
+			//imgFile[i].type.indexOf("image")==1,不等于1就是其他图片格式
+			if(imgFile[i].type.indexOf("image")!=-1){
+				var imgRead=new FileReader();//新建一个文件读取文件信息
+				/*var*/ imgRead.readAsDataURL(imgFile[i]);//要读取的文件数据
+				//console.log(imgRead)
+				imgRead.onload=function(){//当读取成功的时候出发此事件
+					var aImg=new Image();		
+					aImg.src=this.result;
+					//console.log(aImg.src)
+					oBox.appendChild(aImg);
+					if(aImgs){//有没有图片
+						for(var j=0;j<aImgs.length;j++){
+							aImgs[j].ondragstart=function(ev){
+								var ev=ev||window.event;
+								img=ev.target;
+								//console.log(img)
+							}
+						}
+						length=aImgs.length;//aImg改正
+						console.log(length)
+						oP.innerHTML="共"+length+"张图片";
+					}
+					oBin.ondragover=function(ev){
+						var ev = ev || window.event;
+						ev.preventDefault();//阻止浏览器的默认事件
+					}
+					oBin.ondrop=function(){
+						var ev = ev || window.event;
+						ev.preventDefault();//阻止浏览器的默认事件
+						if(img){
+							//有没有图片节点
+							img.parentNode.removeChild(img);
+						}	
+						length=length-1;	
+						oP.innerHTML="共"+length+"张图片";		
+					}
+				}
+			}
+		}
+	}
+	/*
+做项目
+windows
+部署用linux
+新奇老师482056791
+想了解VIP系统学习班课程的加沂梦老师QQ：635955558
+	*/
+</script>
+</body>
+</html>

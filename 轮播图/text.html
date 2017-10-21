@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.silder {
+			width: 100%;
+			height: 408px;
+			overflow: hidden;
+			text-align: center;
+			margin: 0;
+			padding: 0 !important;
+			position: relative;
+			cursor:pointer;
+		}
+		.ig{
+			display:none;
+		
+		} 
+		.silder_list li {
+			height: 408px;
+			position: absolute;
+			margin: 0;
+			list-style-type:none !important;
+			padding: 0 !important;
+		}
+		.silder .silder_list a {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.silder .silder_list a, .silder .silder_list img {
+			display: inline-block;
+			float: left;
+		}
+		
+	</style>
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<body>
+		<div class="silder" id="silder">
+			  <ul class="silder_list" id="silder_list">
+			    <li class='ig'> <img src="img/1.png" border="0" alt="1"> </li>
+			    <li class='ig'> <img src="img/2.png" border="0" alt="2"> </li>
+			    <li class='ig'> <img src="img/3.png" border="0" alt="3"> </li>
+			    <li class='ig'> <img src="img/4.png" border="0" alt="4"> </li>            
+			  </ul>
+		</div>
+		<script type="text/javascript">
+			/*轮播图*/
+			var i=0;
+			$(function(){
+				$('.ig').eq(0).show().siblings().hide();
+				setInterval(function(){
+					$('.ig').eq(0).show().siblings().hide();
+					i++;
+					if(i==4)
+					{
+						i=0;
+					}
+					console.log(i);
+
+					$('.ig').eq(i).fadeIn(300).siblings().fadeOut(300);
+
+					},3000);
+
+					
+			});
+		</script>
+</body>
+</html>

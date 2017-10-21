@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	*{margin:0;padding:0;}
+	#drag{width:100px;height:100px;background:blue;}
+	#box{width:500px;height:500px;border:1px solid #d00;margin:100px auto 0;}
+</style>
+</head>
+
+<body>
+<div id="drag" draggable="true"></div>
+<div id="box"></div>
+<script type="text/javascript">
+//ondragstart 拖拽开始
+//ondrag 拖拽中
+//ondragend   拖拽结束
+//ondragenter 拖拽过程中，进入目标元素
+//ondragover  在目标元素上 移动
+//ondragleave  离开目标元素
+//ondrop  鼠标释放
+	var drag=document.getElementById("drag");
+	var box=document.getElementById("box");
+	//被拖拽元素事件
+	drag.ondragstart=function(){
+		this.style.background="green";
+	}
+	drag.ondrag=function(){
+		this.innerHTML="被拖拽中";
+	}
+	drag.ondragend=function(){
+		this.style.background="blue";
+		this.innerHTML="";
+	}
+	//目标元素事件
+	box.ondragenter=function(){
+		this.innerHTML="可以将文件拖到这里";
+	}
+	box.ondragover=function(){
+		this.style.background="red";
+	}
+	box.ondragleave=function(){
+		this.style.background="none";
+		this.innerHTML="";
+	}
+	box.ondrop=function(){
+		console.log("拖拽结束");
+	}
+</script>
+</body>
+</html>
